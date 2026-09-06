@@ -1,0 +1,16 @@
+ab-download-manager-bin
+anydesk-bin
+caelestia-cli
+caelestia-firefox-theme
+caelestia-shell
+darkly-bin
+equibop-bin
+google-chrome
+hyprmod
+papirus-folders
+qtengine
+spicetify-cli
+spicetify-marketplace-bin
+spotify
+visual-studio-code-bin
+zapzap

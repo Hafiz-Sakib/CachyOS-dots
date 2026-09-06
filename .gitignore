@@ -1,0 +1,14 @@
+# Secrets / credentials
+.env
+.env.*
+*.pem
+*.key
+*.token
+
+# SSH
+.ssh/
+id_rsa
+id_ed25519
+
+# Caches
+.cache/
