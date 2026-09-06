@@ -4,6 +4,13 @@ Personal backup and restoration setup for my **CachyOS + Hyprland + Caelestia** 
 
 This repository contains my installed package lists, desktop configurations, cursor theme, and setup scripts so I can reproduce my preferred Linux environment on another PC.
 
+
+## 🖥️ Setup Preview
+
+![Home Screenshot](home.png)
+
+![Home Screenshot 1](home1.png)
+
 ---
 
 ## 🖥️ Current Environment
