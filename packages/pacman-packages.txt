@@ -90,6 +90,7 @@ gst-plugin-pipewire
 gst-plugin-va
 gst-plugins-bad
 gst-plugins-ugly
+gum
 gvfs-afc
 gvfs-dnssd
 gvfs-gphoto2
@@ -175,6 +176,8 @@ pwvucontrol
 python
 python-defusedxml
 python-packaging
+qt6-multimedia-ffmpeg
+qt6-virtualkeyboard
 quickshell
 realtime-privileges
 rebuild-detector
@@ -183,6 +186,7 @@ resources
 ripgrep
 rsync
 s-nail
+sddm
 sg3_utils
 showtime
 simple-scan
