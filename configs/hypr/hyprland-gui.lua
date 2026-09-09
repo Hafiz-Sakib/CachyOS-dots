@@ -12,3 +12,19 @@ hl.monitor({
     output = "HDMI-A-1",
     disabled = true,
 })
+hl.monitor({
+    output = "eDP-1",
+    disabled = false,
+    mode = "1920x1080@60.06Hz",
+    position = "0x0",
+    scale = 1,
+    cm = "srgb",
+})
+
+-- Keybinds
+hl.unbind("CTRL + SUPER + Left")
+hl.bind("CTRL + Tab", hl.dsp.focus({ workspace = -1 }), {
+    repeating = true,
+})
+hl.unbind("SUPER + Tab")
+hl.bind("SUPER + Tab", hl.dsp.focus({ workspace = "+1" }))

@@ -40,7 +40,6 @@ cantarell-fonts
 chatgpt-desktop-bin
 chwd
 cliphist
-cmatrix
 cpupower
 cryptsetup
 curl
@@ -236,4 +235,5 @@ xl2tpd
 ydotool
 zed
 zen-browser-bin
+zip
 zoxide
