@@ -56,13 +56,38 @@ echo
 # ==========================================================
 command -v git >/dev/null 2>&1 || { fail "git not found. Aborting."; exit 1; }
 command -v pacman >/dev/null 2>&1 || { fail "pacman not found. Aborting."; exit 1; }
+command -v rsync >/dev/null 2>&1 || {
+    fail "rsync not found. Install it with: sudo pacman -S rsync"
+    exit 1
+}
 
 if [ ! -d "$REPO_DIR/.git" ]; then
     fail "$REPO_DIR is not a git repository. Aborting."
     exit 1
 fi
 
-mkdir -p "$REPO_DIR/packages" "$REPO_DIR/configs" "$REPO_DIR/assets"
+if $DRY_RUN; then
+    info "[dry-run] would ensure packages/, configs/, assets/ directories exist"
+    info "[dry-run] would ensure 'backup.log' is present in .gitignore"
+else
+    mkdir -p "$REPO_DIR/packages" "$REPO_DIR/configs" "$REPO_DIR/assets"
+
+    # Make sure backup.log never gets committed to the repo.
+    if [ ! -f "$REPO_DIR/.gitignore" ] || ! grep -qxF "backup.log" "$REPO_DIR/.gitignore"; then
+        echo "backup.log" >> "$REPO_DIR/.gitignore"
+    fi
+fi
+
+# If backup.log was already committed in a previous run (before it was
+# gitignored), untrack it so .gitignore actually takes effect.
+if git ls-files --error-unmatch backup.log >/dev/null 2>&1; then
+    if $DRY_RUN; then
+        info "[dry-run] would untrack backup.log (already committed previously)"
+    else
+        git rm --cached --quiet backup.log
+        warn "backup.log was previously tracked — untracked it now."
+    fi
+fi
 
 # ==========================================================
 # 1. Update package lists
@@ -70,18 +95,25 @@ mkdir -p "$REPO_DIR/packages" "$REPO_DIR/configs" "$REPO_DIR/assets"
 
 info "[1/5] Updating package lists..."
 
-pacman -Qqen > "$REPO_DIR/packages/pacman-packages.txt" || warn "Failed to list native packages."
-pacman -Qqem > "$REPO_DIR/packages/aur-packages.txt" || warn "Failed to list AUR packages."
-
-if command -v flatpak >/dev/null 2>&1; then
-    flatpak list --app --columns=application \
-        > "$REPO_DIR/packages/flatpak-packages.txt" || warn "Failed to list flatpak apps."
-    ok "Flatpak apps backed up."
+if $DRY_RUN; then
+    info "[dry-run] would write packages/pacman-packages.txt, aur-packages.txt, flatpak-packages.txt"
 else
-    warn "flatpak not installed, skipping."
-fi
+    # No "|| warn" here on purpose: a failed package list is worse than a
+    # failed backup run. Let set -e / the ERR trap stop the script instead
+    # of silently committing a stale or empty list.
+    pacman -Qqen > "$REPO_DIR/packages/pacman-packages.txt"
+    pacman -Qqem > "$REPO_DIR/packages/aur-packages.txt"
 
-ok "Package lists updated."
+    if command -v flatpak >/dev/null 2>&1; then
+        flatpak list --app --columns=application \
+            > "$REPO_DIR/packages/flatpak-packages.txt"
+        ok "Flatpak apps backed up."
+    else
+        warn "flatpak not installed, skipping."
+    fi
+
+    ok "Package lists updated."
+fi
 
 # ==========================================================
 # 2. Backup configurations
@@ -95,6 +127,7 @@ CONFIGS=(
     "hypr"
     "caelestia"
     "kitty"
+    "foot"
     "waybar"
     "rofi"
     "fastfetch"
@@ -106,7 +139,10 @@ for name in "${CONFIGS[@]}"; do
 
     if [ -d "$src" ]; then
         if $DRY_RUN; then
-            info "[dry-run] would sync $src -> $dest"
+            info "[dry-run] $name changes:"
+            rsync -an --delete --itemize-changes \
+                --exclude 'cache' --exclude '*.log' \
+                "$src/" "$dest/" | sed 's/^/    /'
         else
             mkdir -p "$dest"
             rsync -a --delete \
@@ -132,7 +168,8 @@ CURSOR_DEST="$REPO_DIR/assets/$CURSOR_NAME"
 
 if [ -d "$CURSOR_SRC" ]; then
     if $DRY_RUN; then
-        info "[dry-run] would sync $CURSOR_SRC -> $CURSOR_DEST"
+        info "[dry-run] $CURSOR_NAME changes:"
+        rsync -an --delete --itemize-changes "$CURSOR_SRC/" "$CURSOR_DEST/" | sed 's/^/    /'
     else
         mkdir -p "$CURSOR_DEST"
         rsync -a --delete "$CURSOR_SRC/" "$CURSOR_DEST/"
@@ -163,7 +200,8 @@ if [ -d "$FONT_SRC_ROOT" ]; then
 
         if [ -d "$src" ]; then
             if $DRY_RUN; then
-                info "[dry-run] would sync $src -> $dest"
+                info "[dry-run] $font changes:"
+                rsync -an --delete --itemize-changes "$src/" "$dest/" | sed 's/^/    /'
             else
                 mkdir -p "$dest"
                 rsync -a --delete "$src/" "$dest/"
@@ -219,9 +257,29 @@ fi
 echo
 info "[5/5] Pushing to GitHub..."
 
-if ! git push; then
+# Capture push output so we can react if GitHub reports the repo moved
+# (e.g. renamed / transferred), instead of just failing next time.
+set +e
+PUSH_OUTPUT="$(git push 2>&1)"
+PUSH_STATUS=$?
+set -e
+
+echo "$PUSH_OUTPUT"
+
+if [ $PUSH_STATUS -ne 0 ]; then
     fail "Push failed. Check your network/remote/credentials and run 'git push' manually."
     exit 1
+fi
+
+# Detect GitHub's "This repository moved" redirect notice and update the
+# remote automatically so future pushes don't warn/fail.
+NEW_URL="$(echo "$PUSH_OUTPUT" | grep -oE 'https://github\.com/[^[:space:]]+\.git' | tail -n 1 || true)"
+if [ -n "$NEW_URL" ] && echo "$PUSH_OUTPUT" | grep -qi "repository moved"; then
+    CURRENT_URL="$(git remote get-url origin)"
+    if [ "$CURRENT_URL" != "$NEW_URL" ]; then
+        git remote set-url origin "$NEW_URL"
+        ok "Remote 'origin' updated to new location: $NEW_URL"
+    fi
 fi
 
 ok "Changes pushed to GitHub."

@@ -12,3 +12,4 @@ id_ed25519
 
 # Caches
 .cache/
+backup.log
