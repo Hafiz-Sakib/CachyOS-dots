@@ -37,6 +37,7 @@ cachyos-v3-mirrorlist
 cachyos-v4-mirrorlist
 cachyos-wallpapers
 cantarell-fonts
+cava
 chatgpt-desktop-bin
 chwd
 cliphist

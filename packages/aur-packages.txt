@@ -7,8 +7,10 @@ darkly-bin
 equibop-bin
 google-chrome
 hyprmod
+notesnook-bin
 papirus-folders
 qtengine
+quickshell-overview-git
 spicetify-cli
 spicetify-marketplace-bin
 spotify

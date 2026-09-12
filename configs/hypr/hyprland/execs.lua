@@ -27,6 +27,9 @@ hl.on("hyprland.start", function()
 
     -- Start shell
     hl.exec_cmd("caelestia shell -d")
+
+     -- Start workspace overview
+    hl.exec_cmd("qs-overview start")
 end)
 
 -- Resizer listeners
