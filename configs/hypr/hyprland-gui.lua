@@ -28,3 +28,5 @@ hl.bind("CTRL + Tab", hl.dsp.focus({ workspace = -1 }), {
 })
 hl.unbind("SUPER + Tab")
 hl.bind("SUPER + Tab", hl.dsp.focus({ workspace = "+1" }))
+hl.unbind("SUPER + A")
+hl.bind("SUPER + A", hl.dsp.exec_cmd("qs-overview toggle"))
