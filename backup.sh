@@ -40,7 +40,13 @@ done
 # ==========================================================
 trap 'fail "Backup failed at line $LINENO. Check $LOG_FILE for details."' ERR
 
-exec > >(tee -a "$LOG_FILE") 2>&1
+# Only append to backup.log for real runs. In --dry-run nothing on disk
+# should change, including the log file itself.
+if $DRY_RUN; then
+    info "[dry-run] no output will be written to $LOG_FILE"
+else
+    exec > >(tee -a "$LOG_FILE") 2>&1
+fi
 
 cd "$REPO_DIR"
 
@@ -66,11 +72,21 @@ if [ ! -d "$REPO_DIR/.git" ]; then
     exit 1
 fi
 
+# Single source of truth: CONFIGS, DOTFILES, FONTS, CURSOR_NAME all live
+# in dotfiles.conf and are shared with install.sh, so a new config folder
+# only ever needs to be added in one place.
+if [ ! -f "$REPO_DIR/dotfiles.conf" ]; then
+    fail "dotfiles.conf not found in $REPO_DIR. Aborting."
+    exit 1
+fi
+# shellcheck source=dotfiles.conf
+source "$REPO_DIR/dotfiles.conf"
+
 if $DRY_RUN; then
-    info "[dry-run] would ensure packages/, configs/, assets/ directories exist"
+    info "[dry-run] would ensure packages/, configs/, assets/, dotfiles/ directories exist"
     info "[dry-run] would ensure 'backup.log' is present in .gitignore"
 else
-    mkdir -p "$REPO_DIR/packages" "$REPO_DIR/configs" "$REPO_DIR/assets"
+    mkdir -p "$REPO_DIR/packages" "$REPO_DIR/configs" "$REPO_DIR/assets" "$REPO_DIR/dotfiles"
 
     # Make sure backup.log never gets committed to the repo.
     if [ ! -f "$REPO_DIR/.gitignore" ] || ! grep -qxF "backup.log" "$REPO_DIR/.gitignore"; then
@@ -93,7 +109,7 @@ fi
 # 1. Update package lists
 # ==========================================================
 
-info "[1/5] Updating package lists..."
+info "[1/7] Updating package lists..."
 
 if $DRY_RUN; then
     info "[dry-run] would write packages/pacman-packages.txt, aur-packages.txt, flatpak-packages.txt"
@@ -116,22 +132,11 @@ else
 fi
 
 # ==========================================================
-# 2. Backup configurations
+# 2. Backup configurations (~/.config/*)
 # ==========================================================
 
 echo
-info "[2/5] Updating configurations..."
-
-# Add/remove config folder names here — single source of truth.
-CONFIGS=(
-    "hypr"
-    "caelestia"
-    "kitty"
-    "foot"
-    "waybar"
-    "rofi"
-    "fastfetch"
-)
+info "[2/7] Updating configurations..."
 
 for name in "${CONFIGS[@]}"; do
     src="$HOME/.config/$name"
@@ -156,13 +161,40 @@ for name in "${CONFIGS[@]}"; do
 done
 
 # ==========================================================
-# 3. Backup cursor
+# 3. Backup top-level dotfiles (~/.gitconfig etc.)
 # ==========================================================
 
 echo
-info "[3/5] Updating cursor..."
+info "[3/7] Updating dotfiles..."
 
-CURSOR_NAME="Bibata-Modern-Ice"
+for name in "${DOTFILES[@]}"; do
+    src="$HOME/$name"
+    dest="$REPO_DIR/dotfiles/$name"
+
+    if [ -f "$src" ]; then
+        if $DRY_RUN; then
+            if [ -f "$dest" ] && cmp -s "$src" "$dest"; then
+                info "[dry-run] $name unchanged"
+            else
+                info "[dry-run] would copy $name -> dotfiles/$name"
+            fi
+        else
+            mkdir -p "$(dirname "$dest")"
+            cp -f "$src" "$dest"
+            ok "$name backed up."
+        fi
+    else
+        warn "$name not found at \$HOME, skipping."
+    fi
+done
+
+# ==========================================================
+# 4. Backup cursor
+# ==========================================================
+
+echo
+info "[4/7] Updating cursor..."
+
 CURSOR_SRC="$HOME/.local/share/icons/$CURSOR_NAME"
 CURSOR_DEST="$REPO_DIR/assets/$CURSOR_NAME"
 
@@ -180,16 +212,11 @@ else
 fi
 
 # ==========================================================
-# 3b. Backup fonts
+# 5. Backup fonts
 # ==========================================================
 
 echo
-info "Updating fonts..."
-
-# Add custom font folder names here (folders inside ~/.local/share/fonts).
-FONTS=(
-    "JetBrainsMono"
-)
+info "[5/7] Updating fonts..."
 
 FONT_SRC_ROOT="$HOME/.local/share/fonts"
 
@@ -222,11 +249,11 @@ if $DRY_RUN; then
 fi
 
 # ==========================================================
-# 4. Git add + commit
+# 6. Git add + commit
 # ==========================================================
 
 echo
-info "[4/5] Creating Git commit..."
+info "[6/7] Creating Git commit..."
 
 git add -A
 
@@ -246,7 +273,7 @@ git commit -m "$COMMIT_MSG"
 ok "Changes committed: \"$COMMIT_MSG\""
 
 # ==========================================================
-# 5. Git push
+# 7. Git push
 # ==========================================================
 
 if $NO_PUSH; then
@@ -255,7 +282,7 @@ if $NO_PUSH; then
 fi
 
 echo
-info "[5/5] Pushing to GitHub..."
+info "[7/7] Pushing to GitHub..."
 
 # Capture push output so we can react if GitHub reports the repo moved
 # (e.g. renamed / transferred), instead of just failing next time.
@@ -293,6 +320,7 @@ echo "✓ System packages backed up"
 echo "✓ AUR packages backed up"
 echo "✓ Flatpak apps backed up (if installed)"
 echo "✓ Configs backed up: ${CONFIGS[*]}"
+echo "✓ Dotfiles backed up: ${DOTFILES[*]}"
 echo "✓ Cursor backed up"
 echo "✓ Fonts backed up: ${FONTS[*]}"
 echo "✓ Git commit created"
