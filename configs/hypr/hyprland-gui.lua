@@ -22,11 +22,11 @@ hl.monitor({
 })
 
 -- Keybinds
-hl.unbind("CTRL + SUPER + Left")
-hl.bind("CTRL + Tab", hl.dsp.focus({ workspace = -1 }), {
-    repeating = true,
-})
-hl.unbind("SUPER + Tab")
-hl.bind("SUPER + Tab", hl.dsp.focus({ workspace = "+1" }))
 hl.unbind("SUPER + A")
 hl.bind("SUPER + A", hl.dsp.exec_cmd("qs-overview toggle"))
+hl.unbind("CTRL + SUPER + Left")
+hl.bind("SUPER + CTRL + Left", hl.dsp.focus({ workspace = -1 }))
+hl.unbind("CTRL + SUPER + Right")
+hl.bind("SUPER + CTRL + Right", hl.dsp.focus({ workspace = "+1" }), {
+    repeating = true,
+})
