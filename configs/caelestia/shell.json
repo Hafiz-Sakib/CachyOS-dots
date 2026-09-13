@@ -580,11 +580,11 @@
     "hideDelay": 2000
   },
   "paths": {
-    "lockNoNotifsPic": "root:/assets/dino.png",
+    "lockNoNotifsPic": "root:/assets/alone.png",
     "lyricsDir": "~/Music/lyrics/",
-    "mediaGif": "root:/assets/music.gif",
-    "noNotifsPic": "root:/assets/dino.png",
-    "sessionGif": "root:/assets/kurukuru.gif",
+    "mediaGif": "root:/assets/music2.gif",
+    "noNotifsPic": "root:/assets/alone.png",
+    "sessionGif": "root:/assets/power_menu2.gif",
     "wallpaperDir": "~/Pictures/Wallpapers"
   },
   "services": {
