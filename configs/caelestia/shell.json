@@ -609,7 +609,7 @@
   "session": {
     "commands": {
       "hibernate": ["hibernate"],
-      "logout": ["logout"],
+      "logout": ["hyprshutdown", "--vt", "1"],
       "reboot": ["reboot"],
       "shutdown": ["poweroff"]
     },

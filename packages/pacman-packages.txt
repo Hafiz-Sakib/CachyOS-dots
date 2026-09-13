@@ -103,6 +103,7 @@ hwdetect
 hwinfo
 hyprland
 hyprpicker
+hyprshutdown
 inetutils
 iwd
 jfsutils
