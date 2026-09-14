@@ -15,4 +15,5 @@ spicetify-cli
 spicetify-marketplace-bin
 spotify
 visual-studio-code-bin
+ytmdesktop
 zapzap
