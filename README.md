@@ -1,29 +1,60 @@
-# CachyOS Setup
+<div align="center">
 
-Personal backup and restoration setup for my **CachyOS + Hyprland + Caelestia** environment.
+# 🐧 CachyOS + Hyprland + Caelestia Setup
 
-This repository contains my installed package lists, desktop configurations, dotfiles, fonts, cursor theme, and setup scripts so I can reproduce my preferred Linux environment on another PC.
+<em>Personal backup & restoration system for my Linux ricing environment — package lists, configs, dotfiles, fonts, and cursor theme, all reproducible with two scripts.</em>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/OS-CachyOS-1793D1?style=for-the-badge&logo=archlinux&logoColor=white">
+  <img src="https://img.shields.io/badge/WM-Hyprland-58E1FF?style=for-the-badge&logo=wayland&logoColor=white">
+  <img src="https://img.shields.io/badge/Shell-Caelestia-orange?style=for-the-badge&logo=gnometerminal&logoColor=white">
+  <img src="https://img.shields.io/badge/Login%20Shell-Fish-red?style=for-the-badge&logo=gnubash&logoColor=white">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/Hafiz-Sakib/hyprcachy-ricing?style=flat-square&color=blue">
+  <img src="https://img.shields.io/github/stars/Hafiz-Sakib/hyprcachy-ricing?style=flat-square&color=yellow">
+  <img src="https://img.shields.io/github/repo-size/Hafiz-Sakib/hyprcachy-ricing?style=flat-square&color=success">
+</p>
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=ebmqWhNaUYk">
+    <img src="https://img.shields.io/badge/YouTube-Watch%20the%20Showcase-FF0000?style=for-the-badge&logo=youtube&logoColor=white">
+  </a>
+</p>
+
+</div>
+
+---
 
 ## 🖥️ Setup Preview
 
-![Home Screenshot](home.png)
+![Home Screenshot](home1.png)
 
-![Home Screenshot 1](home1.png)
+> 🎥 **Full walkthrough:** watch the distro showcase on [YouTube](https://www.youtube.com/watch?v=ebmqWhNaUYk) to see the setup in action.
+
+---
+
+## 📖 About
+
+This repository contains my installed package lists, desktop configurations, dotfiles, fonts, cursor theme, and setup scripts so I can reproduce my preferred Linux environment on another PC — in minutes, not hours.
 
 ---
 
 ## 🖥️ Current Environment
 
-- **OS:** CachyOS
-- **Desktop Environment:** Hyprland
-- **Shell (desktop):** Caelestia Shell
-- **Terminal:** Kitty / Foot
-- **Login Shell:** Fish
-- **Cursor:** Bibata-Modern-Ice
-- **Browser:** Google Chrome
-- **Package Manager:** pacman
-- **AUR Helper:** paru
-- **Flatpak:** Supported
+| Component               | Choice           |
+| ------------------------ | ----------------- |
+| **OS**                    | CachyOS            |
+| **Desktop Environment**   | Hyprland           |
+| **Shell (desktop)**       | Caelestia Shell    |
+| **Terminal**               | Kitty / Foot         |
+| **Login Shell**            | Fish                 |
+| **Cursor**                 | Bibata-Modern-Ice     |
+| **Browser**                | Google Chrome          |
+| **Package Manager**        | pacman                  |
+| **AUR Helper**             | paru                      |
+| **Flatpak**                | Supported                  |
 
 ---
 
@@ -201,3 +232,11 @@ want your dotfiles snapshot kept current.
 - **`paru` build fails** — check that `base-devel` installed correctly
   (`sudo pacman -S --needed base-devel`) and that you have a working
   network connection to `aur.archlinux.org`.
+
+---
+
+<div align="center">
+
+Made with 🖤 by <a href="https://github.com/Hafiz-Sakib">Hafiz-Sakib</a>
+
+</div>
