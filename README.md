@@ -30,7 +30,7 @@ This repository contains my installed package lists, desktop configurations, dot
 ## 📁 Repository Structure
 
 ```text
-cachyos-setup/
+hyprcachy-ricing/
 │
 ├── assets/
 │   ├── Bibata-Modern-Ice/
@@ -124,7 +124,7 @@ next run.
 
 ```bash
 git clone https://github.com/Hafiz-Sakib/hyprcachy-ricing
-cd cachyos-setup
+cd hyprcachy-ricing
 ```
 
 ### 2. Make the scripts executable
