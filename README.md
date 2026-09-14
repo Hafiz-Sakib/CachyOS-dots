@@ -123,7 +123,7 @@ next run.
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url> cachyos-setup
+git clone https://github.com/Hafiz-Sakib/CachyOS-dots
 cd cachyos-setup
 ```
 
