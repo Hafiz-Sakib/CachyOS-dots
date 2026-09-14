@@ -123,7 +123,7 @@ next run.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Hafiz-Sakib/CachyOS-dots
+git clone https://github.com/Hafiz-Sakib/hyprcachy-ricing
 cd cachyos-setup
 ```
 
