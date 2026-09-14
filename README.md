@@ -23,6 +23,18 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=ebmqWhNaUYk">
+    <img src="https://img.shields.io/badge/YouTube-Watch%20the%20Showcase-FF0000?style=for-the-badge&logo=youtube&logoColor=white">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=ebmqWhNaUYk">
+    <img src="https://img.youtube.com/vi/ebmqWhNaUYk/maxresdefault.jpg" width="600" alt="Distro Showcase Video">
+  </a>
+</p>
+
 </div>
 
 ---
