@@ -210,19 +210,20 @@ Item {
     opacity: 0
 
     sourceComponent: AnimatedImage {
-        anchors.centerIn: parent
-
-        source: "root:/assets/music2.gif"
-
-        playing: true
-
-        width: 180
-        height: 180
+        width: root.width
+        height: root.height
 
         fillMode: Image.PreserveAspectFit
+        playing: true
+        source: "file:///home/sakib/.config/quickshell/caelestia/assets/music2.gif"
+    }
+
+    Behavior on opacity {
+        Anim {
+            type: Anim.DefaultEffects
+        }
     }
 }
-
     StyledListView {
         id: lyrics
 
