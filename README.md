@@ -29,6 +29,18 @@
 
 ## 🖥️ Setup Preview
 
+### 🎥 Distro Showcase (click to watch on YouTube)
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=ebmqWhNaUYk">
+    <img src="https://img.youtube.com/vi/ebmqWhNaUYk/hqdefault.jpg" width="600" alt="▶ Click to watch the distro showcase on YouTube">
+  </a>
+  <br>
+  <sub>👆 <b>Click the thumbnail above</b> to watch the full showcase on YouTube</sub>
+</p>
+
+### 📸 Screenshot
+
 ![Home Screenshot](home1.png)
 
 > 🎥 **Full walkthrough:** watch the distro showcase on [YouTube](https://www.youtube.com/watch?v=ebmqWhNaUYk) to see the setup in action.
