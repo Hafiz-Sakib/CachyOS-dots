@@ -23,11 +23,11 @@
   </a>
 </p>
 
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=ebmqWhNaUYk">
-    <img src="https://img.shields.io/badge/YouTube-Watch%20the%20Showcase-FF0000?style=for-the-badge&logo=youtube&logoColor=white">
-  </a>
-</p>
+</div>
+
+---
+
+## 🖥️ Setup Preview
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=ebmqWhNaUYk">
@@ -35,11 +35,6 @@
   </a>
 </p>
 
-</div>
-
----
-
-## 🖥️ Setup Preview
 
 ![Home Screenshot](home1.png)
 
