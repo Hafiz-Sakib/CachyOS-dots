@@ -1,28 +1,76 @@
+-- ============================================================
+-- Custom Keybinds
+-- ============================================================
+
+
+-- ------------------------------------------------------------
+-- Applications
+-- ------------------------------------------------------------
+
+-- Open WhatsApp
 hl.bind("SUPER + W", hl.dsp.exec_cmd("gtk-launch com.rtosta.zapzap"))
-hl.bind("CTRL+ W", hl.dsp.exec_cmd("caelestia wallpaper -r"))
 
 
--- Window resize
-hl.bind("CTRL + ALT + LEFT", hl.dsp.window.resize({
-    x = -50,
-    y = 0,
-    relative = true
-}))
+-- ------------------------------------------------------------
+-- Wallpaper
+-- ------------------------------------------------------------
 
-hl.bind("CTRL + ALT + RIGHT", hl.dsp.window.resize({
-    x = 50,
-    y = 0,
-    relative = true
-}))
+-- Random wallpaper
+hl.bind("CTRL + W", hl.dsp.exec_cmd("caelestia wallpaper -r"))
 
-hl.bind("CTRL + ALT + UP", hl.dsp.window.resize({
-    x = 0,
-    y = -50,
-    relative = true
-}))
 
-hl.bind("CTRL + ALT + DOWN", hl.dsp.window.resize({
-    x = 0,
-    y = 50,
-    relative = true
-}))
+-- ------------------------------------------------------------
+-- Persistent Mode
+-- ------------------------------------------------------------
+
+-- Toggle Caelestia persistent mode
+-- CTRL + B: ON <-> OFF
+hl.bind(
+    "CTRL + B",
+    hl.dsp.exec_cmd("bash ~/.config/caelestia/scripts/toggle-persistent.sh")
+)
+
+
+-- ------------------------------------------------------------
+-- Window Resize
+-- ------------------------------------------------------------
+
+-- Resize window to the left
+hl.bind(
+    "CTRL + ALT + LEFT",
+    hl.dsp.window.resize({
+        x = -50,
+        y = 0,
+        relative = true
+    })
+)
+
+-- Resize window to the right
+hl.bind(
+    "CTRL + ALT + RIGHT",
+    hl.dsp.window.resize({
+        x = 50,
+        y = 0,
+        relative = true
+    })
+)
+
+-- Resize window upward
+hl.bind(
+    "CTRL + ALT + UP",
+    hl.dsp.window.resize({
+        x = 0,
+        y = -50,
+        relative = true
+    })
+)
+
+-- Resize window downward
+hl.bind(
+    "CTRL + ALT + DOWN",
+    hl.dsp.window.resize({
+        x = 0,
+        y = 50,
+        relative = true
+    })
+)

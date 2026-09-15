@@ -73,7 +73,7 @@ require("hyprland.keybinds")
 
 -- User configs
 maybe_create(home .. "/.config/caelestia/hypr-user.lua")
-require("hypr-user")
+hl.dsp.exec_cmd("notify-send 'HYPR USER LOADER REACHED'"); require("hypr-user")
 
 -- HyprMod managed settings
 require("hyprland-gui")
